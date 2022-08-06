@@ -1,0 +1,6 @@
+[submodule "Libs/ParserCombinator"]
+	path = Libs/ParserCombinator
+	url = https://github.com/GapanovichIgor/HnkParserCombinator.git
+[submodule "Libs/ParserGenerator"]
+	path = Libs/ParserGenerator
+	url = https://github.com/GapanovichIgor/HnkParserGenerator.git
