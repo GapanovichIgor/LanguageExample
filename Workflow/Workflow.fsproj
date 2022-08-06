@@ -6,8 +6,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Include="Example.txt" />
+        <Content Include="WorkflowDefinition.txt">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Grammar.txt" />
+        <Content Include="RegenerateParser.cmd" />
+        <Compile Include="Parser.fs" />
+        <Compile Include="Token.fs" />
+        <Compile Include="Ast.fs" />
+        <Compile Include="Runtime.fs" />
         <Compile Include="Program.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Libs\ParserCombinator\HnkParserCombinator\HnkParserCombinator.fsproj" />
+      <ProjectReference Include="..\Libs\ParserGenerator\HnkParserGenerator\HnkParserGenerator.fsproj" />
     </ItemGroup>
 
 </Project>

@@ -1,0 +1,20 @@
+﻿states:
+    Draft
+    Approval (approvers, remainingApprovers)
+    ChangeNeeded (reason)
+    Published (approvers)
+
+initial:
+    Draft
+
+transitions:
+    on "request approval from {approvers}"
+        Draft -> Approval (approvers, approvers)
+        ChangeNeeded (_) -> Approval (approvers, approvers)
+
+    on "approved by {approver}"
+        Approval (approver, *approvers) -> Published (approvers)
+        Approval (*remainingApprovers, *approvers) -> Approval (remainingApprovers - approver, approvers)
+
+    on "request change {reason}"
+        Approval (_, _) -> ChangeNeeded (reason)

@@ -1,0 +1,1 @@
+dotnet run --project ..\Libs\ParserGenerator\HnkParserGenerator\HnkParserGenerator.fsproj Grammar.txt Parser.fs Workflow.Parser

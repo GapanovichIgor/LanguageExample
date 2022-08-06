@@ -1,0 +1,76 @@
+TStates : unit
+TTransitions : unit
+TInitial : unit
+TColon : unit
+TParenOpen : unit
+TParenClose : unit
+TOn : unit
+TArrow : unit
+TUnderscore : unit
+TComma : unit
+TMinus : unit
+TAsterisk : unit
+TId : string
+TQuotedString : string
+TBlockOpen : unit
+TBreak : unit
+TBlockClose : unit
+TInvalidToken : string
+
+Document -> States TBreak Initial TBreak Transitions
+
+States -> TStates TColon TBlockOpen StateDefinitionList TBlockClose
+
+StateDefinitionList.Head -> StateDefinition
+StateDefinitionList.Append -> StateDefinitionList TBreak StateDefinition
+
+StateDefinition -> TId StateDefinitionParameters
+
+StateDefinitionParameters.NoParameters ->
+StateDefinitionParameters.Parameters -> TParenOpen StateDefinitionParameterList TParenClose
+
+StateDefinitionParameterList.Head -> TId
+StateDefinitionParameterList.Append -> StateDefinitionParameterList TComma TId
+
+Initial -> TInitial TColon TBlockOpen StateConstruction TBlockClose
+
+Transitions -> TTransitions TColon TBlockOpen TransitionList TBlockClose
+
+TransitionList.Head -> Transition
+TransitionList.Append -> TransitionList TBreak Transition
+
+Transition -> TOn TQuotedString TBlockOpen TransitionCaseList TBlockClose
+
+TransitionCaseList.Head -> TransitionCase
+TransitionCaseList.Append -> TransitionCaseList TBreak TransitionCase
+
+TransitionCase -> StatePattern TArrow StateConstruction
+
+StatePattern -> TId StatePatternArguments
+
+StatePatternArguments.NoArguments ->
+StatePatternArguments.Arguments -> TParenOpen StatePatternArgumentList TParenClose
+
+StatePatternArgumentList.Head -> StatePatternArgument
+StatePatternArgumentList.Append -> StatePatternArgumentList TComma StatePatternArgument
+
+StatePatternArgument.Underscore -> TUnderscore
+StatePatternArgument.Id -> TId
+StatePatternArgument.Bind -> TAsterisk TId
+
+StateConstruction -> TId StateConstructionArguments
+
+StateConstructionArguments.NoArguments ->
+StateConstructionArguments.Arguments -> TParenOpen StateConstructionArgumentList TParenClose
+
+StateConstructionArgumentList.Head -> ValueExpression
+StateConstructionArgumentList.Append -> StateConstructionArgumentList TComma ValueExpression
+
+ValueExpression -> ValueExpressionBinOp
+
+ValueExpressionBinOp.BinaryOp -> ValueExpressionBinOp BinaryOperator ValueExpressionId
+ValueExpressionBinOp.FallThrough -> ValueExpressionId
+
+ValueExpressionId -> TId
+
+BinaryOperator.Minus -> TMinus
