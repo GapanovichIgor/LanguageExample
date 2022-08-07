@@ -1,6 +1,6 @@
 ﻿states:
     Draft
-    Approval (approvers, remainingApprovers)
+    Approval (remainingApprovers, allApprovers)
     ChangeNeeded (reason)
     Published (approvers)
 
@@ -13,8 +13,8 @@ transitions:
         ChangeNeeded (_) -> Approval (approvers, approvers)
 
     on "approved by {approver}"
-        Approval (approver, *approvers) -> Published (approvers)
-        Approval (*remainingApprovers, *approvers) -> Approval (remainingApprovers - approver, approvers)
+        Approval (approver, *allApprovers) -> Published (allApprovers)
+        Approval (*remainingApprovers, *allApprovers) -> Approval (remainingApprovers - approver, allApprovers)
 
     on "request change {reason}"
         Approval (_, _) -> ChangeNeeded (reason)
